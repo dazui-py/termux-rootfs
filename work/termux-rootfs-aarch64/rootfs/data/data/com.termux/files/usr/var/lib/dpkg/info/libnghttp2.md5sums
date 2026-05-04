@@ -1,0 +1,6 @@
+4e8c043998e94bb18d0948ff2626cd2a  data/data/com.termux/files/usr/lib/libnghttp2.so
+92854cccf639a9dd8cdb9654958407a5  data/data/com.termux/files/usr/lib/pkgconfig/libnghttp2.pc
+5a5e1592f489ea7f05262c4455d1a6b8  data/data/com.termux/files/usr/include/nghttp2/nghttp2.h
+4f66fa468da3a6b0595964bceced59ae  data/data/com.termux/files/usr/include/nghttp2/nghttp2ver.h
+764abdf30b2eadd37ce47dcbce0ea1ec  data/data/com.termux/files/usr/share/doc/libnghttp2/copyright
+1f4f798e683e3132b021b9cb1396cb8d  data/data/com.termux/files/usr/share/doc/nghttp2/README.rst

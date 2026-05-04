@@ -1,0 +1,66 @@
+name: Build Termux rootfs
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force rebuild even if the release already exists"
+        required: false
+        default: "false"
+        type: boolean
+      arches:
+        description: "Architectures to build, comma-separated. Empty = all available."
+        required: false
+        default: ""
+        type: string
+
+  schedule:
+    # Runs every 6 hours, not exactly at the top of the hour.
+    - cron: "37 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: termux-rootfs-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl jq unzip tar zstd coreutils gh
+
+      - name: Build rootfs artifacts
+        id: build
+        env:
+          FORCE: ${{ github.event.inputs.force == 'true' && '1' || '0' }}
+          ARCHES: ${{ github.event.inputs.arches }}
+          SKIP_IF_RELEASE_EXISTS: "1"
+        run: |
+          scripts/workflow.sh
+
+      - name: Upload workflow artifacts
+        if: steps.build.outputs.built == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: termux-rootfs-${{ steps.build.outputs.tag }}
+          path: out/*
+
+      - name: Create GitHub release
+        if: steps.build.outputs.built == 'true'
+        run: |
+          gh release create "${{ steps.build.outputs.tag }}" \
+            out/* \
+            --title "Termux rootfs ${{ steps.build.outputs.tag }}" \
+            --notes "Clean Termux rootfs artifacts for termux-sandbox."
