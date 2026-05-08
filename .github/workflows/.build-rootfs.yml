@@ -14,9 +14,9 @@ on:
         default: ""
         type: string
 
-  schedule:
+#  schedule:
     # Runs every 6 hours, not exactly at the top of the hour.
-    - cron: "37 */6 * * *"
+ #   - cron: "37 */6 * * *"
 
 permissions:
   contents: write
