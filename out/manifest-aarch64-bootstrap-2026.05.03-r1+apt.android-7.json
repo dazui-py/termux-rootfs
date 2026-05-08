@@ -1,9 +1,0 @@
-{
-  "name": "termux-rootfs",
-  "arch": "aarch64",
-  "source": "termux/termux-packages",
-  "bootstrap_tag": "bootstrap-2026.05.03-r1+apt.android-7",
-  "prefix": "/data/data/com.termux/files/usr",
-  "home": "/data/data/com.termux/files/home",
-  "created_at": "2026-05-04T23:20:14Z"
-}
